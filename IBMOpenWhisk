@@ -1,0 +1,52 @@
+var request = require('request');
+
+/**
+  *
+  * main() will be invoked when you Run This Action.
+  * 
+  * @param Whisk actions accept a single parameter,
+  *        which must be a JSON object.
+  *
+  * @return which must be a JSON object.
+  *         It will be the output of this action.
+  *
+  */
+function main(params) {
+
+
+var urls='https://adobedemoapac6.tt.omtrdc.net/rest/v1/mbox/88882671?client=adobedemoapac6';
+
+
+  return new Promise(function(resolve, reject) {
+       request({
+    url:  urls,
+    method: 'POST',
+    json: {  "mbox" : "target-global-mbox"}
+}, function(error, response, body) {
+           if (error) {
+               reject(error);
+           }
+           else {
+                console.log(body);
+                console.log(params.test);
+               var responses = JSON.parse(JSON.stringify(body)); 
+               if (params.test=="mobile")
+               var output = {  "version": "1.0",    "response": {    "outputSpeech": {      "type": "PlainText",      "text": "Hey i think the offer on mobile is 10% discount"},    "reprompt": {      "outputSpeech": {        "type": "PlainText",        "text": "would you like to hear next offer?"      }    },"shouldEndSession": false},  "sessionAttributes": {}};
+               else if (params.test=="tablet")
+               var output = {  "version": "1.0",    "response": {    "outputSpeech": {      "type": "PlainText",      "text": "Hey i think the offer on tablet is 20% discount"},    "reprompt": {      "outputSpeech": {        "type": "PlainText",        "text": "would you like to hear next offer?"      }    },"shouldEndSession": false},  "sessionAttributes": {}};
+               else if (params.test=="laptop")
+               var output = {  "version": "1.0",    "response": {    "outputSpeech": {      "type": "PlainText",      "text": "Hey i think the offer on laptop is 10% discount"},    "reprompt": {      "outputSpeech": {        "type": "PlainText",        "text": "would you like to hear next offer?"      }    },"shouldEndSession": false},  "sessionAttributes": {}};
+               else
+               var output = {  "version": "1.0",    "response": {    "outputSpeech": {      "type": "PlainText",      "text": "Hey i think your best offer is "+responses.content},    "reprompt": {      "outputSpeech": {        "type": "PlainText",        "text": "would you like to hear next offer?"      }    },"shouldEndSession": false},  "sessionAttributes": {}};
+               
+               resolve(output);
+           }
+       });
+   });
+
+
+
+        
+}
+
+/* Hint: To invoke this action, click Run This Action */

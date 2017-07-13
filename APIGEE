@@ -1,0 +1,17 @@
+
+
+var url="https://openwhisk.ng.bluemix.net/api/v1/namespaces/Adobe%20SV_SV/actions/Hello%20World?blocking=true";
+
+ var req = new Request(url, 'POST', {"Content-Type":"application/json","Authorization": "Basic  MDU2ZDAzMWItZmI1MS00OTEwLWIxMTktMzkzYTVjMjRhNzM3OnZLMVVKYTZFamE2YnRvdER0R3pGSEN6MnZhM3RaWkt3eTZ2UEJuUVhxNjRQeHNKMjBNaVl6czRkWTBmbTdOaEc="},JSON.stringify({"test":request.body.asJSON.request.intent.name}));          
+  var exchange = httpClient.send(req);
+exchange.waitForComplete();
+
+
+if (exchange.isSuccess()) {
+    var responseObj = JSON.stringify(exchange.getResponse().content.asJSON.response.result);
+  
+    if (responseObj.error) {
+      responseObj=responseObj.error_description;
+    }
+}
+    context.proxyResponse.content= responseObj;
